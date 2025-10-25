@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário Corregedoria Geral</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        
+        .status-bar {
+            background: white;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #202124;
+        }
+        
+        .status svg {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-green {
+            background: #00897b;
+            color: white;
+        }
+        
+        .btn-green:hover {
+            background: #00796b;
+        }
+        
+        .btn-red {
+            background: #d32f2f;
+            color: white;
+        }
+        
+        .btn-red:hover {
+            background: #c62828;
+        }
+        
+        .btn-blue {
+            background: #1976d2;
+            color: white;
+        }
+        
+        .btn-blue:hover {
+            background: #1565c0;
+        }
+        
+        .form-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #00897b 0%, #00796b 100%);
+            padding: 40px 24px;
+            color: white;
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        
+        .logo svg {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .warning {
+            background: #fef3cd;
+            border-left: 4px solid #f9a825;
+            padding: 16px;
+            display: none;
+        }
+        
+        .warning.show {
+            display: block;
+        }
+        
+        .warning p {
+            color: #5f4b00;
+            font-size: 14px;
+        }
+        
+        .form-content {
+            padding: 24px;
+        }
+        
+        .question {
+            margin-bottom: 32px;
+        }
+        
+        .question label {
+            display: block;
+            font-size: 16px;
+            color: #202124;
+            margin-bottom: 12px;
+        }
+        
+        .required {
+            color: #d93025;
+            margin-left: 4px;
+        }
+        
+        input[type="number"],
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border 0.2s;
+            background: white;
+        }
+        
+        input[type="number"]:focus,
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #00897b;
+        }
+        
+        input:disabled,
+        textarea:disabled {
+            background: #f5f5f5;
+            color: #80868b;
+            cursor: not-allowed;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #00897b;
+        }
+        
+        .checkbox-item input[type="checkbox"]:disabled {
+            cursor: not-allowed;
+        }
+        
+        .checkbox-item span {
+            font-size: 14px;
+            color: #202124;
+        }
+        
+        .checkbox-special {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 4px;
+            border: 1px solid #dadce0;
+        }
+        
+        .footer-section {
+            border-top: 1px solid #dadce0;
+            padding-top: 24px;
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .required-text {
+            font-size: 12px;
+            color: #5f6368;
+        }
+        
+        .submit-btn {
+            background: #00897b;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .submit-btn:hover {
+            background: #00796b;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .submit-btn:disabled {
+            background: #dadce0;
+            color: #80868b;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #dadce0;
+        }
+        
+        .footer p {
+            font-size: 12px;
+            color: #5f6368;
+            margin: 4px 0;
+        }
+        
+        .footer .name {
+            font-size: 14px;
+            color: #202124;
+            font-weight: 500;
+        }
+        
+        .confirmation {
+            display: none;
+            text-align: center;
+            padding: 60px 24px;
+        }
+        
+        .confirmation.show {
+            display: block;
+        }
+        
+        .confirmation svg {
+            width: 80px;
+            height: 80px;
+            color: #00897b;
+            margin-bottom: 24px;
+        }
+        
+        .confirmation h2 {
+            font-size: 24px;
+            font-weight: 400;
+            color: #202124;
+            margin-bottom: 12px;
+        }
+        
+        .confirmation p {
+            font-size: 16px;
+            color: #5f6368;
+            margin-bottom: 32px;
+        }
+        
+        .counter {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            display: none;
+        }
+        
+        .counter.show {
+            display: block;
+        }
+        
+        .counter span {
+            font-size: 24px;
+            font-weight: 500;
+            color: #00897b;
+        }
+        
+        /* Respostas Panel */
+        .responses-panel {
+            display: none;
+            margin-top: 16px;
+        }
+        
+        .responses-panel.show {
+            display: block;
+        }
+        
+        .response-card {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+        
+        .response-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .response-number {
+            font-size: 20px;
+            font-weight: 500;
+            color: #00897b;
+        }
+        
+        .response-date {
+            font-size: 12px;
+            color: #5f6368;
+        }
+        
+        .response-item {
+            margin-bottom: 20px;
+        }
+        
+        .response-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 8px;
+        }
+        
+        .response-value {
+            font-size: 14px;
+            color: #5f6368;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+        
+        .no-responses {
+            text-align: center;
+            padding: 40px;
+            color: #5f6368;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status">
+                <svg id="statusIcon" fill="none" stroke="#00897b" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>
+                </svg>
+                <span>Status: <strong id="statusText">Aceitando respostas</strong></span>
+            </div>
+            <div class="buttons">
+                <button class="btn btn-green" onclick="openForm()">Abrir Formulário</button>
+                <button class="btn btn-red" onclick="closeForm()">Fechar Formulário</button>
+                <button class="btn btn-blue" onclick="toggleResponses()">Ver Respostas</button>
+                <button class="btn btn-blue" onclick="downloadCSV()">Baixar CSV</button>
+            </div>
+        </div>
+
+        <!-- Responses Panel -->
+        <div class="responses-panel" id="responsesPanel">
+            <div class="form-card">
+                <div class="header">
+                    <h1>Respostas Recebidas</h1>
+                    <p id="totalResponses">0 respostas</p>
+                </div>
+                <div class="form-content" id="responsesList">
+                    <div class="no-responses">Nenhuma resposta recebida ainda.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Card -->
+        <div class="form-card" id="mainFormCard">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo">
+                    <svg viewBox="0 0 100 100" fill="none">
+                        <circle cx="50" cy="50" r="35" stroke="#00897b" stroke-width="8" fill="none" stroke-dasharray="160 220" transform="rotate(-45 50 50)"/>
+                        <path d="M65 35 L75 25 L75 35 L65 35 Z" fill="#00897b"/>
+                    </svg>
+                </div>
+                <h1>Corregedoria Geral da Justiça</h1>
+                <p>Formulário de Candidatura</p>
+            </div>
+
+            <!-- Warning -->
+            <div class="warning" id="warningBox">
+                <p><strong>Este formulário não está mais aceitando respostas.</strong></p>
+            </div>
+
+            <!-- Content -->
+            <div class="form-content" id="formContent">
+                <!-- Nick Discord -->
+                <div class="question">
+                    <label>Qual seu nick no Discord? <span class="required">*</span></label>
+                    <input type="text" id="nickDiscord" placeholder="Ex: usuario#1234">
+                </div>
+
+                <!-- Nick Roblox -->
+                <div class="question">
+                    <label>Qual seu nick no Roblox? <span class="required">*</span></label>
+                    <input type="text" id="nickRoblox" placeholder="Seu nick do Roblox">
+                </div>
+
+                <!-- ID Discord -->
+                <div class="question">
+                    <label>Qual ID do Discord? <span class="required">*</span></label>
+                    <input type="text" id="idDiscord" placeholder="Ex: 123456789012345678">
+                </div>
+
+                <!-- Idade -->
+                <div class="question">
+                    <label>Quantos anos você tem? <span class="required">*</span></label>
+                    <input type="number" id="idade" placeholder="Sua idade">
+                </div>
+
+                <!-- Turnos -->
+                <div class="question">
+                    <label>Qual turno você mais está online? <span class="required">*</span></label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="turno" value="Manhã" id="turno1">
+                            <span>Manhã</span>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="turno" value="Tarde" id="turno2">
+                            <span>Tarde</span>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="turno" value="Noite" id="turno3">
+                            <span>Noite</span>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="turno" value="Madrugada" id="turno4">
+                            <span>Madrugada</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Motivo -->
+                <div class="question">
+                    <label>Por que deseja entrar para corregedoria geral? <span class="required">*</span></label>
+                    <textarea id="motivoEntrada" placeholder="Sua resposta"></textarea>
+                </div>
+
+                <!-- Como ajudar -->
+                <div class="question">
+                    <label>O que você acha que poderia ajudar em nossa Corregedoria? <span class="required">*</span></label>
+                    <textarea id="comoAjudar" placeholder="Sua resposta"></textarea>
+                </div>
+
+                <!-- Defeitos e Qualidades -->
+                <div class="question">
+                    <label>Cite 3 defeitos e 3 qualidades suas. <span class="required">*</span></label>
+                    <textarea id="defeitosQualidades" placeholder="Defeitos:&#10;1.&#10;2.&#10;3.&#10;&#10;Qualidades:&#10;1.&#10;2.&#10;3."></textarea>
+                </div>
+
+                <!-- Situação Superiores -->
+                <div class="question">
+                    <label>Se você visse 2 superiores brigando por forma inútil, o que você faria? <span class="required">*</span></label>
+                    <textarea id="situacaoSuperiores" placeholder="Sua resposta"></textarea>
+                </div>
+
+                <!-- Ciência -->
+                <div class="question">
+                    <div class="checkbox-special">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ciente">
+                            <span>Você está ciente que ao adentrar a Corregedoria, terá de ter muita responsabilidade, e não se achar superior aos outros. <span class="required">*</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Maturidade -->
+                <div class="question">
+                    <label>Defina para mim o que é maturidade [Sem uso de IA] <span class="required">*</span></label>
+                    <textarea id="maturidade" placeholder="Sua resposta (sem uso de IA)"></textarea>
+                </div>
+
+                <!-- Footer Section -->
+                <div class="footer-section">
+                    <span class="required-text">* Obrigatório</span>
+                    <button class="submit-btn" id="submitBtn" onclick="submitForm()">Enviar</button>
+                </div>
+            </div>
+
+            <!-- Confirmation -->
+            <div class="confirmation" id="confirmationBox">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h2>Você terminou o formulário da CG - Corregedoria Geral</h2>
+                <p>Aguarde pacientemente o resultado do formulário sair!</p>
+                <button class="btn btn-green" onclick="resetForm()">Enviar nova resposta</button>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <p>Atenciosamente</p>
+                <p class="name">Corregedoria Geral</p>
+                <p style="margin-top: 8px;">Feito por slknumcompensa0743</p>
+            </div>
+        </div>
+
+        <!-- Counter -->
+        <div class="counter" id="counterBox">
+            <p><span id="count">0</span> resposta(s) recebida(s)</p>
+        </div>
+    </div>
+
+    <script>
+        let isOpen = true;
+        let responses = [];
+
+        function openForm() {
+            isOpen = true;
+            updateStatus();
+        }
+
+        function closeForm() {
+            isOpen = false;
+            updateStatus();
+        }
+
+        function updateStatus() {
+            const icon = document.getElementById('statusIcon');
+            const text = document.getElementById('statusText');
+            const warning = document.getElementById('warningBox');
+            const btn = document.getElementById('submitBtn');
+            const inputs = document.querySelectorAll('input, textarea');
+
+            if (isOpen) {
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path>';
+                icon.setAttribute('stroke', '#00897b');
+                text.innerHTML = 'Aceitando respostas';
+                warning.classList.remove('show');
+                btn.disabled = false;
+                inputs.forEach(i => i.disabled = false);
+            } else {
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>';
+                icon.setAttribute('stroke', '#d32f2f');
+                text.innerHTML = 'Fechado';
+                warning.classList.add('show');
+                btn.disabled = true;
+                inputs.forEach(i => i.disabled = true);
+            }
+        }
+
+        function submitForm() {
+            if (!isOpen) {
+                alert('O formulário está fechado!');
+                return;
+            }
+
+            const nickDiscord = document.getElementById('nickDiscord').value;
+            const nickRoblox = document.getElementById('nickRoblox').value;
+            const idDiscord = document.getElementById('idDiscord').value;
+            const idade = document.getElementById('idade').value;
+            const turnos = Array.from(document.querySelectorAll('input[name="turno"]:checked')).map(c => c.value);
+            const motivoEntrada = document.getElementById('motivoEntrada').value;
+            const comoAjudar = document.getElementById('comoAjudar').value;
+            const defeitosQualidades = document.getElementById('defeitosQualidades').value;
+            const situacaoSuperiores = document.getElementById('situacaoSuperiores').value;
+            const ciente = document.getElementById('ciente').checked;
+            const maturidade = document.getElementById('maturidade').value;
+
+            if (!nickDiscord || !nickRoblox || !idDiscord || !idade || turnos.length === 0 || !motivoEntrada || !comoAjudar || 
+                !defeitosQualidades || !situacaoSuperiores || !ciente || !maturidade) {
+                alert('Por favor, preencha todos os campos obrigatórios!');
+                return;
+            }
+
+            const response = {
+                data: new Date().toLocaleString('pt-BR'),
+                nickDiscord,
+                nickRoblox,
+                idDiscord,
+                idade,
+                turnos: turnos.join(', '),
+                motivoEntrada,
+                comoAjudar,
+                defeitosQualidades,
+                situacaoSuperiores,
+                ciente: ciente ? 'Sim' : 'Não',
+                maturidade
+            };
+
+            responses.push(response);
+            updateCounter();
+            document.getElementById('formContent').style.display = 'none';
+            document.getElementById('confirmationBox').classList.add('show');
+            window.scrollTo(0, 0);
+        }
+
+        function resetForm() {
+            document.getElementById('nickDiscord').value = '';
+            document.getElementById('nickRoblox').value = '';
+            document.getElementById('idDiscord').value = '';
+            document.getElementById('idade').value = '';
+            document.querySelectorAll('input[name="turno"]').forEach(c => c.checked = false);
+            document.getElementById('motivoEntrada').value = '';
+            document.getElementById('comoAjudar').value = '';
+            document.getElementById('defeitosQualidades').value = '';
+            document.getElementById('situacaoSuperiores').value = '';
+            document.getElementById('ciente').checked = false;
+            document.getElementById('maturidade').value = '';
+            document.getElementById('formContent').style.display = 'block';
+            document.getElementById('confirmationBox').classList.remove('show');
+            window.scrollTo(0, 0);
+        }
+
+        function updateCounter() {
+            document.getElementById('count').textContent = responses.length;
+            document.getElementById('counterBox').classList.add('show');
+        }
+
+        function toggleResponses() {
+            const panel = document.getElementById('responsesPanel');
+            const form = document.getElementById('mainFormCard');
+            
+            if (panel.classList.contains('show')) {
+                panel.classList.remove('show');
+                form.classList.remove('hidden');
+            } else {
+                renderResponses();
+                panel.classList.add('show');
+                form.classList.add('hidden');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function renderResponses() {
+            const list = document.getElementById('responsesList');
+            const total = document.getElementById('totalResponses');
+            
+            total.textContent = `${responses.length} resposta${responses.length !== 1 ? 's' : ''}`;
+            
+            if (responses.length === 0) {
+                list.innerHTML = '<div class="no-responses">Nenhuma resposta recebida ainda.</div>';
+                return;
+            }
+
+            list.innerHTML = responses.map((r, i) => `
+                <div class="response-card">
+                    <div class="response-header">
+                        <span class="response-number">Resposta #${i + 1}</span>
+                        <span class="response-date">${r.data}</span>
+                    </div>
+                    <div class="response-item">
+                        <div class="response-label">Qual seu nick no Discord?</div>
+                        <div class="response-value">${r.nickDiscord}</div>
+                    </div>
+                    <div class="response-item">
+                        <div class="response-label">Qual seu nick no Roblox?</div>
+                        <div class="response-value">${r.nickRoblox}</div>
+                    </div>
+                    <div class="response-item">
+                        <div class="response-label">Qual ID do Discord?</div>
+                        <div class="response-value">${r.idDiscord}</div>
+                    </div>
+                    <div class="response-item">
+                        <div class="response-label">Quantos anos você tem?</div>
+                        <div class="response-value">${r.idade} anos</div>
+                    </div>
+                    <div class="response-item">
+                        <div class="response-label">Qual turno você mais está online?</div>
+                        <div class="response-value">${r.turnos}</div>
+                    </div>
+                    <div class="response-item">
+                        <div class="response-label">Por que deseja entrar para corregedoria geral?</div>
+                        <div class="response-value">${r.motivoEntrada}</div>
+                    </div>
+                    <div class="response-item">
+                        <div class="response-label">O que você acha que poderia ajudar em nossa Corregedoria?</div>
+                        <div class="response-value">${r.comoAjudar}</div>
+                    </div>
+                    <div class="response-item">
+                        <div class="response-label">Cite 3 defeitos e 3 qualidades suas</div>
+                        <div class="response-value">${r.defeitosQualidades}</div>
+                    </div>
+                    <div class="response-item">
+                        <div class="response-label">Se você visse 2 superiores brigando por forma inútil, o que você faria?</div>
+                        <div class="response-value">${r.situacaoSuperiores}</div>
+                    </div>
+                    <div class="response-item">
+                        <div class="response-label">Está ciente das responsabilidades?</div>
+                        <div class="response-value">${r.ciente}</div>
+                    </div>
+                    <div class="response-item">
+                        <div class="response-label">Defina para mim o que é maturidade</div>
+                        <div class="response-value">${r.maturidade}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function downloadCSV() {
+            if (responses.length === 0) {
+                alert('Não há respostas para baixar!');
+                return;
+            }
+
+            let csv = 'Data/Hora,Nick Discord,Nick Roblox,ID Discord,Idade,Turnos,Motivo de Entrada,Como Pode Ajudar,Defeitos e Qualidades,Situação Superiores,Ciente,Maturidade\n';
+            
+            responses.forEach(r => {
+                csv += `"${r.data}","${r.nickDiscord}","${r.nickRoblox}","${r.idDiscord}","${r.idade}","${r.turnos}","${r.motivoEntrada.replace(/"/g, '""')}","${r.comoAjudar.replace(/"/g, '""')}","${r.defeitosQualidades.replace(/"/g, '""')}","${r.situacaoSuperiores.replace(/"/g, '""')}","${r.ciente}","${r.maturidade.replace(/"/g, '""')}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `respostas_corregedoria_${new Date().getTime()}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+  </html>
